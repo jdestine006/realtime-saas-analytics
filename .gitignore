@@ -1,0 +1,18 @@
+# Python
+__pychace__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environments
+venv/
+.env/
+
+# MacOS
+.DS_Store
+
+# Docker Volumes
+clickhouse_data/
+
+# Logs
+*.log

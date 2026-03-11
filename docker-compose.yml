@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  redpanda:
+    image: docker.redpanda.com/redpandadata/redpanda:v24.1.8
+    container_name: redpanda
+    command:
+      - redpanda
+      - start
+      - --overprovisioned
+      - --smp=1
+      - --memory=1G
+      - --reserve-memory=0M
+      - --node-id=0
+      - --check=false
+      - --kafka-addr=PLAINTEXT://0.0.0.0:9092,OUTSIDE://0.0.0.0:19092
+      - --advertise-kafka-addr=PLAINTEXT://redpanda:9092,OUTSIDE://localhost:19092
+      - --pandaproxy-addr=0.0.0.0:8082
+      - --advertise-pandaproxy-addr=redpanda:8082
+    ports:
+      - "19092:19092"
+      - "8082:8082"
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:24.3
+    container_name: clickhouse
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    environment:
+      CLICKHOUSE_DB: analytics
+      CLICKHOUSE_USER: analytics_user
+      CLICKHOUSE_PASSWORD: analytics_pass
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+
+  metabase:
+    image: metabase/metabase:latest
+    container_name: metabase
+    ports:
+      - "3001:3000"
+    depends_on:
+      - clickhouse
+
+volumes:
+  clickhouse_data:
