@@ -2,7 +2,7 @@
 
 A real-time analytics pipeline that ingests product events, streams them through a distributed message broker, processes them into an analytics database, and visualizes them in a dashboard.
 
-This project demonstrates modern data platform architecture used by SaaS companies tto power product analytics and revenue insights
+This project demonstrates modern data platform architecture used by SaaS companies to power product analytics and revenue insights
 
 # Architecture
 
